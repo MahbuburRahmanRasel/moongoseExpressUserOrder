@@ -2,11 +2,11 @@ import { Schema, model } from 'mongoose';
 import { IUserOrder } from './users.interface';
 
 const userSchema = new Schema<IUserOrder>({
-  user:{
+  user: {
     userId: {
       type: Number,
       required: [true, 'ID is required'],
-      unique: true
+      unique: true,
     },
     username: {
       type: String,
@@ -53,19 +53,19 @@ const userSchema = new Schema<IUserOrder>({
         required: [true],
       },
     },
-   
   },
-  order : [{
-    productName: String,
-    price: Number,
-    quantity: Number
-  }]
+  order: [
+    {
+      productName: String,
+      price: Number,
+      quantity: Number,
+    },
+  ],
 });
-
 
 // userSchema.methods.getTotalCost = function (): {
 //   totalCost: number | null
- 
+
 // } {
 
 //   const today = new Date()
@@ -83,7 +83,7 @@ const userSchema = new Schema<IUserOrder>({
 
 //   return {
 //     totalCost
-    
+
 //   }
 // }
 
