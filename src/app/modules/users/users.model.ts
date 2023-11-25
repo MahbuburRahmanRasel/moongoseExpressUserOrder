@@ -1,5 +1,8 @@
+//import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import { IUserOrder } from './users.interface';
+//import config from '../../config';
+
 
 const userSchema = new Schema<IUserOrder>({
   user: {
@@ -62,6 +65,25 @@ const userSchema = new Schema<IUserOrder>({
     },
   ],
 });
+
+// userSchema.pre('save', async function (next) {
+//   // eslint-disable-next-line @typescript-eslint/no-this-alias
+//   const userdata = this; 
+//   userdata.user.password = await bcrypt.hash(
+//     userdata.user.password,
+//     Number(config.bcrypt_salt_rounds)
+//   );
+//   next();
+// });
+
+
+// userSchema.post('save', function (doc, next) {
+//   doc.user.password = '';
+//   next();
+// });
+
+
+
 
 
 

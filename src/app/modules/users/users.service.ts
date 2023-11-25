@@ -18,12 +18,12 @@ const getSingleUser = async (userId: string) => {
 
 const updateUser = async (
   userId: string,
-  userData: any
+  userData: any,
 ): Promise<IUserOrder | null> => {
   const result = await User.findOneAndUpdate(
     { 'user.userId': userId },
     { $set: { user: userData } },
-    { new: true }
+    { new: true },
   );
 
   return result;
@@ -36,12 +36,12 @@ const deleteUser = async (userId: string): Promise<IUserOrder | null> => {
 
 const updateOrder = async (
   userId: string,
-  newOrderData: any
+  newOrderData: any,
 ): Promise<IUserOrder | null> => {
   const result = await User.findOneAndUpdate(
     { 'user.userId': userId },
     { $push: { order: newOrderData } },
-    { new: true }
+    { new: true },
   );
 
   return result;
@@ -53,20 +53,18 @@ const getSingleUserOrder = async (userId: string) => {
 };
 
 const getTotalPrice = async (userId: string): Promise<number | null> => {
-  
-    const user = await User.findOne({ 'user.userId': userId });
+  const user = await User.findOne({ 'user.userId': userId });
 
-    if (!user) {
-      throw null; // User not found
-    }
+  if (!user) {
+    throw null; // User not found
+  }
 
-    const totalPrice = user.order?.reduce(
-      (acc, order) => acc + order.price * order.quantity,
-      0
-    );
+  const totalPrice = user.order?.reduce(
+    (acc, order) => acc + order.price * order.quantity,
+    0,
+  );
 
-    return totalPrice as number;
-  
+  return totalPrice as number;
 };
 
 export const userServices = {
