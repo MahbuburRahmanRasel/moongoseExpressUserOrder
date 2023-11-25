@@ -17,31 +17,31 @@ const getSingleUser = async (userId: string) => {
 };
 
 const updateUser = async (
-  userId: number,
-  userData: any,
+  userId: string,
+  userData: any
 ): Promise<IUserOrder | null> => {
   const result = await User.findOneAndUpdate(
     { 'user.userId': userId },
     { $set: { user: userData } },
-    { new: true },
+    { new: true }
   );
 
   return result;
 };
 
-const deleteUser = async (userId: number): Promise<IUserOrder | null> => {
+const deleteUser = async (userId: string): Promise<IUserOrder | null> => {
   const result = await User.findOneAndDelete({ userId: userId });
   return result;
 };
 
 const updateOrder = async (
-  userId: number,
-  newOrderData: any,
+  userId: string,
+  newOrderData: any
 ): Promise<IUserOrder | null> => {
   const result = await User.findOneAndUpdate(
     { 'user.userId': userId },
     { $push: { order: newOrderData } },
-    { new: true },
+    { new: true }
   );
 
   return result;
@@ -52,15 +52,21 @@ const getSingleUserOrder = async (userId: string) => {
   return result;
 };
 
-const getTotalPrice = async (userId: string): Promise<number | undefined> => {
-  const user = await User.findOne({ 'user.userId': userId });
+const getTotalPrice = async (userId: string): Promise<number | null> => {
+  
+    const user = await User.findOne({ 'user.userId': userId });
 
-  const totalPrice = user?.order?.reduce(
-    (acc, order) => acc + order.price * order.quantity,
-    0,
-  );
+    if (!user) {
+      throw null; // User not found
+    }
 
-  return totalPrice;
+    const totalPrice = user.order?.reduce(
+      (acc, order) => acc + order.price * order.quantity,
+      0
+    );
+
+    return totalPrice as number;
+  
 };
 
 export const userServices = {

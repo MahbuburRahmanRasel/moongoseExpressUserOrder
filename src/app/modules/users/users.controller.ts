@@ -1,9 +1,45 @@
 import { Request, Response } from 'express';
 import { userServices } from './users.service';
+import Joi from 'Joi'
 
 const createUser = async (req: Request, res: Response) => {
   try {
+
+    const userSchema = Joi.object({
+      user: Joi.object({
+        userId: Joi.number().required(),
+        username: Joi.string().required(),
+        password: Joi.string().required(),
+        fullName: Joi.object({
+          firstName: Joi.string().required(),
+          lastName: Joi.string().required(),
+        }).required(),
+        age: Joi.number().required(),
+        email: Joi.string().email().required(),
+        isActive: Joi.boolean().default(false),
+        hobbies: Joi.array().items(Joi.string()),
+        address: Joi.object({
+          street: Joi.string().required(),
+          city: Joi.string().required(),
+          country: Joi.string().required(),
+        }).required(),
+      }).required()
+      
+    });
+
+
     const userData = req.body;
+    const {error, value} = userSchema.validate(userData)
+    console.log(error, value)
+
+    if(error){
+      res.status(500).json({
+        status: 'fail',
+        meassage: 'Somthing Went Wrong',
+        error: error.details
+      })
+    }
+
     const result = await userServices.createUser(userData);
 
     res.status(201).json({
@@ -59,8 +95,8 @@ const getSingleUser = async (req: Request, res: Response) => {
 
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const userData = req.body;
-    const { userId } = req.params;
+    const userData = req.body.user;
+    const userId  = req.params.userId;
     const result = await userServices.updateUser(userId, userData);
 
     res.status(200).json({
@@ -136,19 +172,23 @@ const getSingleUserOder = async (req: Request, res: Response) => {
 
 const getTotalPrice = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const  userId  = req.params.userId;
     const totalPrice = await userServices.getTotalPrice(userId);
 
-    if (totalPrice === null) {
+    if(totalPrice == null ){
       return res.status(404).json({
-        status: 'fail',
+        success: false,
         message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        }
       });
     }
 
     res.status(200).json({
       status: 'success',
-      message: 'Total price retrieved successfully',
+      message: 'Total price calculated successfully',
       data: {
         userId,
         totalPrice,
@@ -157,8 +197,12 @@ const getTotalPrice = async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      status: 'fail',
-      message: error.message || 'Something went wrong',
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      }
     });
   }
 };

@@ -63,29 +63,7 @@ const userSchema = new Schema<IUserOrder>({
   ],
 });
 
-// userSchema.methods.getTotalCost = function (): {
-//   totalCost: number | null
 
-// } {
-
-//   const today = new Date()
-//   const futureDates = this.startDates.filter((startDate: Date) => {
-//     return startDate > today
-//   })
-//   //   65893905746394 - 4873843278478478
-
-//   futureDates.sort((a: Date, b: Date) => a.getTime() - b.getTime())
-
-//   const nearestStartDate = futureDates[0]
-//   const estimatedEndDate = new Date(
-//     nearestStartDate.getTime() + this.durationHours * 60 * 60 * 1000,
-//   )
-
-//   return {
-//     totalCost
-
-//   }
-// }
 
 const User = model<IUserOrder>('User', userSchema);
 
