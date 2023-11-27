@@ -1,7 +1,7 @@
-import Joi from 'Joi';
+import Joi from 'joi';
 
 const userValidationSchema = Joi.object({
-
+  user: Joi.object({
     userId: Joi.number().required(),
     username: Joi.string().required(),
     password: Joi.string().required(),
@@ -18,7 +18,8 @@ const userValidationSchema = Joi.object({
       city: Joi.string().required(),
       country: Joi.string().required(),
     }).required(),
-
+  }).required()
+ 
 });
 
 const oderValidationSchema = Joi.object({

@@ -67,7 +67,10 @@ const userSchema = new Schema<IUserOrder>({
 });
 
 
-
+userSchema.post('save', function (doc, next) {
+  doc.user.password = '';
+  next();
+});
 
 
 

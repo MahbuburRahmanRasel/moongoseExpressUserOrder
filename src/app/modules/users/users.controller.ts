@@ -160,7 +160,7 @@ const getTotalPrice = async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const totalPrice = await userServices.getTotalPrice(userId);
 
-    if (totalPrice == null) {
+    if (totalPrice === null) {
       return res.status(404).json({
         success: false,
         message: 'User not found',

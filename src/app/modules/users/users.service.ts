@@ -7,12 +7,12 @@ const createUser = async (userData: IUserOrder): Promise<IUserOrder> => {
 };
 
 const getAllusers = async (): Promise<IUserOrder[]> => {
-  const result = await User.find({}, { order: 0 });
+  const result = await User.find({}, { order: 0 }).select('-user.password');
   return result;
 };
 
 const getSingleUser = async (userId: string) => {
-  const result = await User.findOne({ 'user.userId': userId }, { order: 0 });
+  const result = await User.findOne({ 'user.userId': userId }, { order: 0 }).select('-user.password');
   return result;
 };
 
@@ -30,7 +30,7 @@ const updateUser = async (
 };
 
 const deleteUser = async (userId: string): Promise<IUserOrder | null> => {
-  const result = await User.findOneAndDelete({ userId: userId });
+  const result = await User.findOneAndDelete({ 'user.userId': userId });
   return result;
 };
 
