@@ -4,7 +4,7 @@
 - Ensure data integrity through validation using Joi.
 
 
-## Follwing packages are used to build these application 
+## Following packages are used to build these application 
 
 1. cors
 2. dotenv
